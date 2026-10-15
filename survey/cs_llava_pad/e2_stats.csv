@@ -1,0 +1,6 @@
+model,prompt,acc_strict,acc_lenient_lastline,unparsed_pct,truncated_pct,tokens_mean,p50_ms,p95_ms,p99_ms,max_ms,ms_per_token,intercept_ms,r2
+LLaVA-1.5-7B,direct,76.3,76.3,0.0,0.0,3.0,121,122,122,206,--,--,--
+LLaVA-1.5-7B,reasoning,0.0,75.7,100.0,0.0,14.1,341,343,347,715,19.68,66,0.998
+
+model,reasoning_minus_direct_pp,ci_low,ci_high
+LLaVA-1.5-7B,-76.3,-81.6,-71.0

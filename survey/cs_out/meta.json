@@ -1,0 +1,20 @@
+{
+ "qwen2.5-vl-7b": {
+  "model_id": "Qwen/Qwen2.5-VL-7B-Instruct",
+  "torch": "2.5.1+cu121",
+  "transformers": "5.18.0",
+  "gpu": "NVIDIA A100-SXM4-80GB"
+ },
+ "internvl3-8b": {
+  "model_id": "OpenGVLab/InternVL3-8B-hf",
+  "torch": "2.5.1+cu121",
+  "transformers": "5.18.0",
+  "gpu": "NVIDIA A100-SXM4-80GB"
+ },
+ "llava-1.5-7b": {
+  "model_id": "llava-hf/llava-1.5-7b-hf",
+  "torch": "2.5.1+cu121",
+  "transformers": "5.18.0",
+  "gpu": "NVIDIA A100-SXM4-80GB"
+ }
+}

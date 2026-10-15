@@ -1,0 +1,3 @@
+model,task,acc_original,G,G_ci_low,G_ci_high,status
+LLaVA-1.5-7B,yesno,68.3,15.5,12.3,18.7,ok
+LLaVA-1.5-7B,action,72.6,0.0,0.0,0.0,artifact

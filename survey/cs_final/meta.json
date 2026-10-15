@@ -1,0 +1,72 @@
+{
+ "qwen2.5-vl-7b": {
+  "model_id": "Qwen/Qwen2.5-VL-7B-Instruct",
+  "torch": "2.5.1+cu121",
+  "transformers": "5.18.0",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "model_revision": null,
+  "dtype": "bfloat16",
+  "attn_implementation": "sdpa",
+  "image_processor": {
+   "do_resize": true,
+   "size": "SizeDict(height=None, width=None, longest_edge=12845056, shortest_edge=3136, max_height=None, max_width=None, min_pixels=None, max_pixels=None)",
+   "do_center_crop": null,
+   "crop_size": null,
+   "do_pad": null,
+   "do_convert_rgb": true
+  },
+  "pad_square": false,
+  "script_version": "2.0",
+  "script_sha256": "0e7f2fd52d0286fa19c9cf7cada9aa1daa642225fb84ac1f020b4076c805dafa",
+  "git_commit": null,
+  "max_new_tokens_direct": 64,
+  "max_new_tokens_reason": 512
+ },
+ "internvl3-8b": {
+  "model_id": "OpenGVLab/InternVL3-8B-hf",
+  "torch": "2.5.1+cu121",
+  "transformers": "5.18.0",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "model_revision": null,
+  "dtype": "bfloat16",
+  "attn_implementation": "sdpa",
+  "image_processor": {
+   "do_resize": true,
+   "size": "SizeDict(height=448, width=448, longest_edge=None, shortest_edge=None, max_height=None, max_width=None, min_pixels=None, max_pixels=None)",
+   "do_center_crop": null,
+   "crop_size": null,
+   "do_pad": null,
+   "max_patches": 12,
+   "do_convert_rgb": true
+  },
+  "pad_square": false,
+  "script_version": "2.0",
+  "script_sha256": "0e7f2fd52d0286fa19c9cf7cada9aa1daa642225fb84ac1f020b4076c805dafa",
+  "git_commit": null,
+  "max_new_tokens_direct": 64,
+  "max_new_tokens_reason": 512
+ },
+ "llava-1.5-7b": {
+  "model_id": "llava-hf/llava-1.5-7b-hf",
+  "torch": "2.5.1+cu121",
+  "transformers": "5.18.0",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "model_revision": null,
+  "dtype": "bfloat16",
+  "attn_implementation": "sdpa",
+  "image_processor": {
+   "do_resize": true,
+   "size": "SizeDict(height=None, width=None, longest_edge=None, shortest_edge=336, max_height=None, max_width=None, min_pixels=None, max_pixels=None)",
+   "do_center_crop": true,
+   "crop_size": "SizeDict(height=336, width=336, longest_edge=None, shortest_edge=None, max_height=None, max_width=None, min_pixels=None, max_pixels=None)",
+   "do_pad": null,
+   "do_convert_rgb": true
+  },
+  "pad_square": false,
+  "script_version": "2.0",
+  "script_sha256": "0e7f2fd52d0286fa19c9cf7cada9aa1daa642225fb84ac1f020b4076c805dafa",
+  "git_commit": null,
+  "max_new_tokens_direct": 64,
+  "max_new_tokens_reason": 512
+ }
+}

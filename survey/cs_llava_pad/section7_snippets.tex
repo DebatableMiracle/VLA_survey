@@ -1,0 +1,71 @@
+% ===== 1. Replace the Data and Inference paragraphs of Section 7.1 with: =====
+\textit{Data.} Items come from the DriveLM-nuScenes v1.1 training split~\cite{sima2024drivelm}. We evaluate 1000 yes/no questions and 1000 target-action questions, each drawn at random with seed 0 from items whose six camera images are available. Target-action answers are mapped to four classes (go straight, stationary, turn left, and turn right), and items in other classes are excluded. The six views are resized to $448\times252$ pixels and tiled into one $2\times3$ image; each model's processor then resizes this image to its native input resolution.
+
+\textit{Inference.} Decoding is greedy, weights are in bf16, and the batch size is 1, on a single NVIDIA A100-SXM4-80GB GPU with PyTorch 2.5.1+cu121 and Transformers 5.18.0. Direct answers are limited to 64 new tokens and reasoning outputs to 512. A response without a valid label is scored incorrect. Latency is measured end to end (image preprocessing, prefill, and decoding, excluding tiling) after warm-up. Prompts are fixed across conditions and listed in the supplementary material.
+
+% ===== 2. Replace the first sentence of Section 7.3 (E2) with: =====
+A random subset of 300 target-action items is answered with two prompts, a direct answer and ``reason step by step, then answer.''
+
+% ===== 3. Replace the table environment tab:cs_e1 with: =====
+\begin{table}[t]
+\centering
+\caption{E1: Accuracy (\%) Under Four Input Conditions and Grounding Gap $G$ = Orig.\ $-$ Blank (Percentage Points). Y/N = Yes/No Items ($n=1000$), Act. = Target-Action Items ($n=1000$).}
+\label{tab:cs_e1}
+\scriptsize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}l l c c c c c@{}}
+\toprule
+\textbf{Model} & \textbf{Task} & \textbf{Orig.} & \textbf{Blank} & \textbf{Corrupt.} & \textbf{No img.} & $G$ \\
+\midrule
+Majority answer & Y/N & 59.9 & 59.9 & 59.9 & 59.9 & 0.0 \\
+Constant ``go straight'' & Act. & 72.6 & 72.6 & 72.6 & 72.6 & 0.0 \\
+\midrule
+LLaVA-1.5-7B & Y/N & 68.3 & 52.8 & 67.5 & 53.8 & 15.5 \\
+ & Act. & 72.6$^{\dagger}$ & 72.6$^{\dagger}$ & 72.6$^{\dagger}$ & 72.6$^{\dagger}$ & (0.0) \\
+\bottomrule
+\multicolumn{7}{@{}p{\columnwidth}@{}}{\scriptsize $^{\dagger}$At least 95\% of responses are the same class. $^{\ddagger}$More than 5\% of responses contain no valid label and are scored incorrect. A $G$ in parentheses involves such outputs and is not a grounding measure. 95\% scene-clustered bootstrap CIs for $G$ are in the supplement.} \\
+\end{tabular}
+\end{table}
+
+% ===== 3b. Add after tab:cs_e1: =====
+\begin{table}[t]
+\centering
+\caption{E1: Prediction Behavior With Original Images. Yes = Share of Yes/No Items Answered ``Yes'' (True Share: 40.1\%); Straight = Share of Target-Action Items Predicted ``Go Straight'' (True Share: 72.6\%); Bal.\ Acc.\ = Balanced Accuracy over the Four Classes (Chance: 25.0\%).}
+\label{tab:cs_e1b}
+\scriptsize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}l c c c c c@{}}
+\toprule
+\textbf{Model} & \textbf{Yes (\%)} & \textbf{Yes, no img. (\%)} & \textbf{Straight (\%)} & \textbf{Bal.\ Acc.\ (\%)} & \textbf{Unparsed (\%)} \\
+\midrule
+LLaVA-1.5-7B & 51.3 & 35.7 & 100.0 & 25.0 & 0.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ===== 4. Replace the table environment tab:cs_e2 with: =====
+\begin{table}[t]
+\centering
+\caption{E2: Accuracy, Generated Tokens, and End-to-End Latency on Target-Action Items ($n=300$). Constant ``Go Straight'' Baseline: 76.3\% on This Subset. Responses Without a Valid Label Are Scored Incorrect.}
+\label{tab:cs_e2}
+\scriptsize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}l l c c c c c c@{}}
+\toprule
+\textbf{Model} & \textbf{Prompt} & \textbf{Acc.\ (\%)} & \textbf{Unp.\ (\%)} & \textbf{Tokens} & \textbf{p50 (ms)} & \textbf{p99 (ms)} & \textbf{ms/tok} \\
+\midrule
+LLaVA-1.5-7B & Direct & 76.3 & 0.0 & 3.0 & 121 & 122 & -- \\
+ & Reasoning & 0.0$^{\dagger}$ & 100.0 & 14.1 & 341 & 347 & 19.7 \\
+\bottomrule
+\multicolumn{8}{@{}p{\columnwidth}@{}}{\scriptsize ms/tok: slope of per-item latency on generated tokens for the reasoning prompt (intercept = prefill and preprocessing). $^{\\dagger}$More than 5\\% of responses contain no valid final answer (truncated or format not followed) and are scored incorrect; this is a format failure, not a reasoning result. Reasoning outputs are capped at 512 new tokens. p99 over $n=300$ is set by the three slowest runs.} \\
+\end{tabular}
+\end{table}
+
+% ===== 5. Replace the red paragraph in Section 7.4 with (after editing): =====
+% DRAFT generated from your results. Check every claim before use.
+% WARNING: reasoning outputs of LLaVA-1.5-7B are truncated or unparsed; re-run E2 with a larger cap before using its accuracy change.
+Tables~\ref{tab:cs_e1}, \ref{tab:cs_e1b}, and~\ref{tab:cs_e2} show the behavior of the 1 models. On yes/no items, replacing the images with a blank frame lowers accuracy by 15.5 points (some of it reflects answer priors, see Table~\ref{tab:cs_e1b}), yet accuracy without any image remains 53.8\%, against a 59.9\% majority-answer baseline. On target-action items, no model exceeds the 72.6\% constant ``go straight'' baseline (72.6\%); the action responses of LLaVA-1.5-7B are near-constant (at least 95\% one class) or often unparsed under some conditions, so their action grounding gaps are not interpreted. Latency grows linearly with generated tokens at 19.7~ms per token ($R^2\ge0.998$), so step-by-step reasoning multiplies median latency by 2.8 and generated tokens by 4.7. Reasoning changed target-action accuracy relative to direct answering by  points, against a 76.3\% constant baseline on this subset; for LLaVA-1.5-7B (100\% unparsed) the final answer was missing too often to compare accuracies. [Add one or two sentences on what this means for Sections~\ref{ssec:lang_eval} and~\ref{ssec:implications}.]
+
+% ===== 6. Abstract sentence (after editing): =====
+% DRAFT abstract sentence. Replace the case-study sentence in the abstract.
+A controlled case study of 1 open VLMs on DriveLM-nuScenes shows that none exceeds a constant ``go straight'' baseline on target-action items, that yes/no accuracy without any image remains 53.8\%, and that step-by-step reasoning multiplies median latency by 2.8 (about 20~ms per generated token).

@@ -1,0 +1,60 @@
+% ===== 1. Replace the Data and Inference paragraphs of Section 7.1 with: =====
+\textit{Data.} Items come from the DriveLM-nuScenes v1.1 training split~\cite{sima2024drivelm}. We evaluate 10 yes/no questions and 10 target-action questions, each drawn at random with seed 0 from items whose six camera images are available. Target-action answers are mapped to four classes (go straight, stationary, turn left, and turn right), and items in other classes are excluded. For every model, the six views are resized to $448\times252$ pixels and tiled into one $2\times3$ image, so that all models receive identical visual input.
+
+\textit{Inference.} Decoding is greedy, weights are in bf16, and the batch size is 1, on a single NVIDIA A100-SXM4-80GB GPU with PyTorch 2.5.1+cu121 and Transformers 5.18.0. Prompts are fixed across conditions and listed in the supplementary material.
+
+% ===== 2. Replace the first sentence of Section 7.3 (E2) with: =====
+A random subset of 5 target-action items is answered with two prompts, a direct answer and ``reason step by step, then answer.''
+
+% ===== 3. Replace the table environment tab:cs_e1 with: =====
+\begin{table}[t]
+\centering
+\caption{E1: Accuracy (\%) Under Four Input Conditions and Grounding Gap $G$ (Percentage Points). Y/N = Yes/No Items ($n=10$), Act. = Target-Action Items ($n=10$).}
+\label{tab:cs_e1}
+\scriptsize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}l l c c c c c@{}}
+\toprule
+\textbf{Model} & \textbf{Task} & \textbf{Orig.} & \textbf{Blank} & \textbf{Corrupt.} & \textbf{No img.} & $G$ \\
+\midrule
+Majority answer & Y/N & 70.0 & 70.0 & 70.0 & 70.0 & 0.0 \\
+Constant ``go straight'' & Act. & 90.0 & 90.0 & 90.0 & 90.0 & 0.0 \\
+\midrule
+Qwen2.5-VL-7B & Y/N & 70.0 & 90.0 & 70.0 & 80.0 & -20.0 \\
+ & Act. & 90.0 & 90.0 & 90.0 & 90.0 & 0.0 \\
+InternVL3-8B & Y/N & 40.0 & 50.0 & 40.0 & 50.0 & -10.0 \\
+ & Act. & 70.0 & 0.0 & 70.0 & 0.0 & 70.0 \\
+LLaVA-1.5-7B & Y/N & 40.0 & 50.0 & 50.0 & 50.0 & -10.0 \\
+ & Act. & 90.0 & 90.0 & 90.0 & 90.0 & 0.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ===== 4. Replace the table environment tab:cs_e2 with: =====
+\begin{table}[t]
+\centering
+\caption{E2: Accuracy, Generated Tokens, and End-to-End Latency on Target-Action Items ($n=5$), With and Without Step-by-Step Reasoning}
+\label{tab:cs_e2}
+\scriptsize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}l l c c c c@{}}
+\toprule
+\textbf{Model} & \textbf{Prompt} & \textbf{Acc. (\%)} & \textbf{Tokens} & \textbf{p50 (ms)} & \textbf{p99 (ms)} \\
+\midrule
+Qwen2.5-VL-7B & Direct & 100.0 & 3.0 & 229 & 230 \\
+ & Reasoning & 80.0 & 238.4 & 4720 & 5260 \\
+InternVL3-8B & Direct & 80.0 & 3.0 & 330 & 332 \\
+ & Reasoning & 100.0 & 126.2 & 2561 & 3841 \\
+LLaVA-1.5-7B & Direct & 100.0 & 3.0 & 126 & 127 \\
+ & Reasoning & 100.0 & 18.2 & 370 & 633 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ===== 5. Replace the red paragraph in Section 7.4 with (after editing): =====
+% DRAFT generated from your results. Check every claim before use.
+Replacing the images with a blank frame changed yes/no accuracy by -20.0 to -10.0 points and target-action accuracy by 0.0 to 70.0 points across the 3 models (Table~\ref{tab:cs_e1}). With the original images, 1 of 3 models scored below the constant ``go straight'' baseline of 90.0\% on target-action items. Step-by-step reasoning multiplied the number of generated tokens by 6.1 to 79.5 and the median latency by 2.9 to 20.6, with an estimated decoding cost of 19.7 to 22.2~ms per generated token, and it changed target-action accuracy by -20.0 to 20.0 points (Table~\ref{tab:cs_e2}). [Add one or two sentences on what this means for Sections~\ref{ssec:lang_eval} and~\ref{ssec:implications}.]
+
+% ===== 6. Abstract sentence (after editing): =====
+% DRAFT abstract sentence. Replace the case-study sentence in the abstract.
+A controlled case study with 3 open VLMs shows that removing visual input changes DriveLM accuracy by -20.0 to 70.0 points and that step-by-step reasoning multiplies median latency by 2.9 to 20.6.

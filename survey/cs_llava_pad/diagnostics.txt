@@ -1,0 +1,5 @@
+E1 llava-1.5-7b action original: >=95% of responses are one class (100.0%).
+E1 llava-1.5-7b action blank: >=95% of responses are one class (100.0%).
+E1 llava-1.5-7b action corrupted: >=95% of responses are one class (100.0%).
+E1 llava-1.5-7b action noimage: >=95% of responses are one class (100.0%).
+E2 llava-1.5-7b reasoning: 100.0% of responses have no valid label.

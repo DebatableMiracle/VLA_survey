@@ -1,0 +1,12 @@
+model,prompt,acc_strict,acc_lenient_lastline,unparsed_pct,truncated_pct,tokens_mean,p50_ms,p95_ms,p99_ms,max_ms,ms_per_token,intercept_ms,r2
+Qwen2.5-VL-7B,direct,100.0,100.0,0.0,0.0,3.0,238,246,246,247,--,--,--
+Qwen2.5-VL-7B,reasoning,100.0,100.0,0.0,0.0,276.7,5571,6824,6936,6964,20.78,-87,1.000
+InternVL3-8B,direct,100.0,100.0,0.0,0.0,3.0,335,335,335,335,--,--,--
+InternVL3-8B,reasoning,100.0,100.0,0.0,0.0,122.0,2541,3398,3474,3493,19.47,281,1.000
+LLaVA-1.5-7B,direct,100.0,100.0,0.0,0.0,3.0,121,121,121,121,--,--,--
+LLaVA-1.5-7B,reasoning,0.0,100.0,100.0,0.0,21.0,524,578,583,584,20.23,58,1.000
+
+model,reasoning_minus_direct_pp,ci_low,ci_high
+Qwen2.5-VL-7B,0.0,0.0,0.0
+InternVL3-8B,0.0,0.0,0.0
+LLaVA-1.5-7B,-100.0,-100.0,-100.0
