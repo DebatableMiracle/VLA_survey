@@ -1,6 +1,9 @@
 # VLA_survey
 A supporting repository for the VLA survey around autonomous driving! 
 
+#
+
+![alt text](images/fig1.png)
 
 # Datasets and benchmarks
 
@@ -55,5 +58,6 @@ A supporting repository for the VLA survey around autonomous driving!
 
 † Systems marked with † also use language.
 
-# References
+## [References](REFERENCES.md)
 
+All references and citations used throughout the paper and accompanying documents, along with their corresponding papers and code repositories, are compiled in [`REFERENCES.md`](REFERENCES.md).
